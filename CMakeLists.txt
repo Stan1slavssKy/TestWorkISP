@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(Typo_corrector)
+project(Test_work)
 set(CMAKE_CXX_STANDART 17)
 
 add_compile_options(
@@ -49,5 +49,3 @@ add_custom_target(${RUN_EXEC}
 )
 
 add_dependencies(${RUN_EXEC} ${EXEC})
-
-add_subdirectory(test)

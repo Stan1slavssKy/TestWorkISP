@@ -5,8 +5,6 @@
 #include <vector>
 
 namespace pool {
-struct Related_pool_info;
-
 class Pool
 {
 public:
@@ -17,18 +15,19 @@ public:
     void connect(Pool* other_pool);
     void add_water(std::size_t volume_to_add);
 
-    std::size_t water_volume = 0;
-
 private:
-    Related_pool_info* info;
-};
+    class Related_pool_info;
 
-struct Related_pool_info
-{
-    std::size_t recalculation_of_water();
+    static void reattach_info(Related_pool_info* lhs, Related_pool_info* rhs);
+
+    Related_pool_info* info = nullptr;
+};
     
-    std::size_t nmb_valid_pools  = 0;
-    std::size_t cur_water_volume = 0;
+class Pool::Related_pool_info
+{
+public:
+    std::size_t nmb_valid_pools    = 0;
+    std::size_t total_water_volume = 0;
     std::vector<Pool*> pools;
 };
 } // namespace pool

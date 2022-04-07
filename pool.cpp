@@ -22,59 +22,34 @@ void Pool::connect(Pool* other_pool)
         return;
 
     if (other_pool->info->pools.size() > info->pools.size())
-    {
-        Related_pool_info* attachable_info = info;
-
-        for (auto& it : attachable_info->pools)
-        {
-            it->info = other_pool->info;
-        }
-        other_pool->info->pools.insert(other_pool->info->pools.end(), attachable_info->pools.begin(), attachable_info->pools.end());
-
-        delete attachable_info;
-    }
+        reattach_info(info, other_pool->info);
     else 
-    {
-        Related_pool_info* attachable_info = other_pool->info;
-
-        for (auto& it : attachable_info->pools)
-        {
-            it->info = info;
-        }
-        info->pools.insert(info->pools.end(), attachable_info->pools.begin(), attachable_info->pools.end());
-
-        delete attachable_info;
-    }
+        reattach_info(other_pool->info, info);
 
     info->nmb_valid_pools = info->pools.size();
-    info->recalculation_of_water();
+}
+
+void Pool::reattach_info(Related_pool_info* lhs, Related_pool_info* rhs)
+{
+    Related_pool_info* attachable_info = lhs;
+
+    for (auto& it : attachable_info->pools)
+    {
+        it->info = rhs;
+    }
+    rhs->pools.insert(rhs->pools.end(), attachable_info->pools.begin(), attachable_info->pools.end());
+    rhs->total_water_volume += attachable_info->total_water_volume;
+
+    delete attachable_info;
 }
 
 std::size_t Pool::get_water_volume() const
 {
-    return water_volume;
+    return info->total_water_volume / info->pools.size();
 }
 
 void Pool::add_water(std::size_t volume_to_add)
 {
-    water_volume += volume_to_add;
-}
-
-std::size_t Related_pool_info::recalculation_of_water()
-{
-    size_t water_sum = 0;
-
-    for (auto& it : pools)
-    {
-        water_sum += it->water_volume;
-    }
-
-    cur_water_volume = water_sum / pools.size();
-
-    for (auto& it : pools)
-    {
-        it->water_volume = cur_water_volume;
-    }
-    return cur_water_volume;
+    info->total_water_volume += volume_to_add;
 }
 } //namespace pool
