@@ -22,7 +22,6 @@ private:
 
     Related_pool_info* info = nullptr;
 };
-    
 class Pool::Related_pool_info
 {
 public:
