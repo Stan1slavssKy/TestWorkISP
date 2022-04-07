@@ -49,3 +49,6 @@ add_custom_target(${RUN_EXEC}
 )
 
 add_dependencies(${RUN_EXEC} ${EXEC})
+
+add_subdirectory(test)
+add_subdirectory(benchmark)
