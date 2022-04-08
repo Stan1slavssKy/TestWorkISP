@@ -22,12 +22,5 @@ private:
 
     Related_pool_info* info = nullptr;
 };
-class Pool::Related_pool_info
-{
-public:
-    std::size_t nmb_valid_pools    = 0;
-    std::size_t total_water_volume = 0;
-    std::vector<Pool*> pools;
-};
 } // namespace pool
 #endif // POOL_POOL_HPP_INCLUDED

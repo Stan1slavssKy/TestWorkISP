@@ -1,6 +1,14 @@
 #include "pool.hpp"
 
 namespace pool{
+class Pool::Related_pool_info
+{
+public:
+    std::size_t nmb_valid_pools    = 0;
+    std::size_t total_water_volume = 0;
+    std::vector<Pool*> pools;
+};
+
 Pool::Pool()
 {
     info = new Related_pool_info {};
